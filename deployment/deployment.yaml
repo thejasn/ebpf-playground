@@ -28,9 +28,9 @@ spec:
           runAsUser: 0
         volumeMounts:
           - name: ebpf-script
-            mountPath: /src/ebpf/pgm/ebpc.c
+            mountPath: /src/ebpc.c
           - name: go-ebpf-script
-            mountPath: /src/ebpf/pgm/ebpc.go
+            mountPath: /src/ebpc.go
       volumes:
       - name: ebpf-script
         configMap:

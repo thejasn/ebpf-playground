@@ -35,5 +35,5 @@ RUN pwd
 
 RUN make generate && cd /src/ebpf && go build -o /main ./cmd/main.go 
 
-CMD ["/main"]
+CMD ["bash entrypoint.sh"]
 
