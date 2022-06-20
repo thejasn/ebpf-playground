@@ -13,6 +13,9 @@ REPODIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 IMAGE := quay.io/cilium/ebpf-builder
 VERSION := 1648566014
 
+REGISTRY ?= quay.io/thejasn/ebpf-playground
+
+
 # Build all ELF binaries using a containerized LLVM toolchain.
 container-all:
 	${CONTAINER_ENGINE} run --rm ${CONTAINER_RUN_ARGS} \
@@ -33,3 +36,8 @@ generate: export BPF_CLANG := $(CLANG)
 generate: export BPF_CFLAGS := $(CFLAGS)
 generate:
 	cd ebpf/ && go generate ./...
+
+
+image:
+	docker build -t ${REGISTRY}:latest .
+	docker push ${REGISTRY}:latest

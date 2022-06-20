@@ -15,22 +15,19 @@ spec:
       labels:
         app: ebpf-playground
     spec:
-      initContainers:
-      - name: ebpf-generate
-        image: quay.io/thejasn/ebpf-playground:latest
-        command: ['sh', '-c', "make generate && cd /src/ebpf && go build -o /main ./cmd/main.go"]    
       containers:
       - image: quay.io/thejasn/ebpf-playground:latest
         name: ebpf-playground
         imagePullPolicy: Always
+        serviceAccountName: default
         securityContext:
           privileged: true
           runAsUser: 0
         volumeMounts:
           - name: ebpf-script
-            mountPath: /src/ebpc.c
+            mountPath: /src/c
           - name: go-ebpf-script
-            mountPath: /src/ebpc.go
+            mountPath: /src/go
       volumes:
       - name: ebpf-script
         configMap:

@@ -31,9 +31,7 @@ ENV CFLAGS="-fdebug-prefix-map=/ebpf=."
 
 ENV HOME="/tmp"
 
-RUN pwd
-
 RUN make generate && cd /src/ebpf && go build -o /main ./cmd/main.go 
 
-CMD ["bash entrypoint.sh"]
+ENTRYPOINT ["/bin/bash","/src/entrypoint.sh"]
 
