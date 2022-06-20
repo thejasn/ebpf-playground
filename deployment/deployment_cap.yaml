@@ -1,0 +1,46 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ebpf-playground
+  labels:
+    app: ebpf-playground
+spec:
+  selector:
+    matchLabels:
+      app: ebpf-playground
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ebpf-playground
+    spec:
+      containers:
+      - image: quay.io/thejasn/ebpf-playground:latest
+        name: ebpf-playground
+        imagePullPolicy: Always
+        serviceAccountName: default
+        securityContext:
+          capabilities:
+            add:
+              - BPF
+              - PERFMON
+              - NET_ADMIN
+              - SYS_RESOURCE
+              - CAP_SYS_RESOURCE
+              - CAP_SETPCAP
+          runAsUser: 0
+        volumeMounts:
+          - name: ebpf-script
+            mountPath: /src/c
+          - name: go-ebpf-script
+            mountPath: /src/go
+      volumes:
+      - name: ebpf-script
+        configMap:
+          name: ebpf-script
+      - name: go-ebpf-script
+        configMap:
+          name: go-ebpf-script        
+
+
